@@ -3,14 +3,14 @@ interface iTree {
 	/*
 		@return Node корневой лист дерева, NULL, если нет
 	*/
-	function getRoot(): iNode;
+	function getRoot(): ?iNode;
 
 	/*
 		Достает лист из дерева
 		@params string nodeName имя листа для поиска
 		@return Node лист с заданным именем, NULL если такого листа нет в дереве	
 	*/
-	function getNode(string $nodeName): iNode;
+	function getNode(string $nodeName): ?iNode;
 	
 	/*
 		Добавляет лист к листу $parent

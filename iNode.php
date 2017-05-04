@@ -6,7 +6,7 @@ interface iNode {
 	/*
 		 @return string имя листа, если есть, иначе NULL
 	*/
-	function getName(): string;
+	function getName(): ?string;
 
 	/*
 		Изменить имя листа
@@ -28,7 +28,7 @@ interface iNode {
 	/*
 		@return Node родительский лист, если нет, то NULL
 	*/
-	function getParent(): iNode;
+	function getParent(): ?iNode;
 
 	/*
 		Устанавливает лист-родитель
