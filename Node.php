@@ -41,7 +41,7 @@ class Node implements iNode
     /**
      * @inheritdoc
      */
-    public function setName(string $name)
+    public function setName(?string $name)
     {
         $this->name = $name;
     }
@@ -65,10 +65,28 @@ class Node implements iNode
     /**
      *
      */
+    public function destroy()
+    {
+        if (count($this->children) > 0) {
+            foreach ($this->children as $child) {
+                $child->destroy();
+            }
+        }
+
+        $this->setName(null);
+        $this->setParent(null);
+
+        $this->children = [];
+    }
+
+    /**
+     *
+     */
     public function deleteChild(string $nodeName)
     {
         foreach ($this->children as $i => $child) {
             if ($child->getName() === $nodeName) {
+                $this->children[$i]->destroy();
                 unset($this->children[$i]);
                 break;
             }
@@ -86,7 +104,7 @@ class Node implements iNode
     /**
      * @inheritdoc
      */
-    public function setParent(iNode $parent)
+    public function setParent(?iNode $parent)
     {
         $this->parent = $parent;
     }
@@ -182,5 +200,7 @@ $child_3->setParent($child_2);
 $root->addChild($child_1);
 $root->addChild($child_2);
 $child_2->addChild($child_3);
+
+$root->deleteChild('child-2');
 
 print($root->toJSON());

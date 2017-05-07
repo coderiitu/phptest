@@ -65,13 +65,27 @@ class Tree implements iTree
     }
 
     /**
+     * @param iNode $node
+     */
+    public function isIn(iNode $node)
+    {
+        if (!$this->root) {
+            return false;
+        }
+
+        while ($node->getParent()) {
+            $node = $node->getParent();
+        }
+
+        return $this->root->getName() === $node->getName();
+    }
+
+    /**
      * @inheritdoc
      */
     public function appendNode(iNode $node, iNode $parent): iNode
     {
-        $parent = $this->getNode($parent->getName());
-
-        if (!$parent) {
+        if (!$this->isIn($parent)) {
             throw new ParentNotFoundException();
         }
 
@@ -87,9 +101,7 @@ class Tree implements iTree
      */
     public function deleteNode(iNode $node)
     {
-        $node = $this->getNode($node->getName());
-
-        if (!$node) {
+        if (!$this->isIn($node)) {
             throw new NodeNotFoundException();
         } 
 
